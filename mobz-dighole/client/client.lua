@@ -82,7 +82,12 @@ RegisterCommand("dighole", function()
         RemoveShovel(shovel)
 
         TriggerServerEvent("dig:syncHoleProp", coords)
-
+		
+		-- Make all peds ignore the player
+		SetPlayerCanBeHassledByGangs(PlayerId(), false)
+		SetEveryoneIgnorePlayer(PlayerId(), true)
+		SetPoliceIgnorePlayer(PlayerId(), true)
+		
         SetEntityCoords(ped, coords.x, coords.y, coords.z - 1.4)
         SetEntityVisible(ped, false, false)
         SetEntityInvincible(ped, true)
@@ -111,7 +116,12 @@ RegisterCommand("leavehole", function()
     SetEntityVisible(ped, true, false)
     SetEntityInvincible(ped, false)
     FreezeEntityPosition(ped, false)
-
+	
+	-- Re-enable ped interaction
+	SetPlayerCanBeHassledByGangs(PlayerId(), true)
+	SetEveryoneIgnorePlayer(PlayerId(), false)
+	SetPoliceIgnorePlayer(PlayerId(), false)
+	
     TriggerServerEvent("dig:syncPlayerLeave")
 
     isInHole = false
